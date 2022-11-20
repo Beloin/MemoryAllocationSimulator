@@ -1,6 +1,6 @@
 # Separação de atividades:
 
-## Entradas do Sistema
+## (100) Entradas do Sistema
 
 Criar as configurações de entrada, algo como:
 
@@ -15,7 +15,7 @@ Caso tenha interface, deverá criar o Label necessário para adicionar essas op�
 Algo como foi feito no primeiro trabalho. Caso não, deverá apenas colocar no terminal de forma organizada e
 explícita.
 
-## Processos e Memória
+## (200) Processos e Memória
 
 Deverão ser criados os processos e a memória de acordo com os dados obtidos nas configurações iniciais,
 lembrando que deverão também ser computados os valores aleatórios dentro do limite especificado.
@@ -34,7 +34,7 @@ class MemoryConfiguration:
 
 No final deverá ser fácil adiquirir as informações de todos os processos e da memória.
 
-## Gerenciamento da memória
+## (300) Gerenciamento da memória
 
 Aqui deveremos ter o processo em si de gerenciamento da memória e execução em Real-Time dos processos.  
 A cada um segundo:
@@ -49,7 +49,7 @@ A cada um segundo:
         - Calcular e salvar tempo gasto (Talvez ter um enum para o estado do processo)
     - Atualizar informações para serem apresentadas.
 
-## Cálculos extras
+## (400) Cálculos extras
 
 Aqui teremos todos os cálculos adicionais que não pertencem unicamente ao gerenciamewnto de memória.
 Os cálculos seguintes:
