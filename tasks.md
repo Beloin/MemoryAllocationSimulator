@@ -23,14 +23,14 @@ lembrando que deverão também ser computados os valores aleatórios dentro do l
 Para Processos e Memória, podemos ter:
 
 class ProcessConfiguration:
-    - memória do processo
-    - duração
-    - tempo para instanciação (Deverá respeitar: Tci = T + Tc(i-1), onde Tc0 = 0)
+- memória do processo
+- duração
+- tempo para instanciação (Deverá respeitar: Tci = T + Tc(i-1), onde Tc0 = 0)
 
 class MemoryConfiguration:
-    - Tamanho Memória
-    - Tamanho Ocupado SO
-    - Estratégia
+- Tamanho Memória
+- Tamanho Ocupado SO
+- Estratégia
 
 No final deverá ser fácil adiquirir as informações de todos os processos e da memória.
 
@@ -38,26 +38,26 @@ No final deverá ser fácil adiquirir as informações de todos os processos e d
 
 Aqui deveremos ter o processo em si de gerenciamento da memória e execução em Real-Time dos processos.  
 A cada um segundo:
-    - Atualizar processo por processo.
-    - Adicionar um novo processo:
-        - Usar o algoritmo de inserção.
-        - Verificar o tempo de inserção
-        - Atualizar a fila de processos.
-        - Calcular o novo espaço da memória.
-    - Remover processo da memória
-        - Calcular novo espaço da memória
-        - Calcular e salvar tempo gasto (Talvez ter um enum para o estado do processo)
-    - Atualizar informações para serem apresentadas.
+- Atualizar processo por processo.
+- Adicionar um novo processo:
+    - Usar o algoritmo de inserção.
+    - Verificar o tempo de inserção
+    - Atualizar a fila de processos.
+    - Calcular o novo espaço da memória.
+- Remover processo da memória
+    - Calcular novo espaço da memória
+    - Calcular e salvar tempo gasto (Talvez ter um enum para o estado do processo)
+- Atualizar informações para serem apresentadas.
 
 ## (400) Cálculos extras
 
 Aqui teremos todos os cálculos adicionais que não pertencem unicamente ao gerenciamewnto de memória.
 Os cálculos seguintes:
-    - Tempo médio de Espera
-    - Tempo de espera
+- Tempo médio de Espera
+- Tempo de espera
 
 ## Interface Visual
 
-Deveremos mostrar esses dados de alguma forma para o usuário, temos como opções:
-    - GUI, usando JavaFX
-    - CLI usando o próprio terminal mesmo1
+Deveremos mostrar esses dados de alguma forma para o usuário, temos como opções:  
+- GUI, usando JavaFX (X)  
+- CLI usando o próprio terminal mesmo

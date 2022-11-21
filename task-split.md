@@ -20,7 +20,7 @@ Deverá também colocar na tela inicialmente as informações da memória.
 
 ## 301
 
-Processo completo de Gerenciamento da memória. Seguir o documento em `tasks.md`
+Processo completo de gerenciamento da memória. Seguir o documento em `tasks.md`
 
 ## 302
 
@@ -32,4 +32,4 @@ Usaremos o Padrão Observable.
 
 ## 401
 
-Deverão também ser apresentados em GUI as opções a mais.
+Deverão ser apresentados em GUI as opções a mais, ditas em `tasks.md`
