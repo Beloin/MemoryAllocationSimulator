@@ -5,11 +5,11 @@
 Criar as configurações de entrada, algo como:
 
 classe EntradaConf:
-    - estratégia: Enum
-    - QuantidadeProcessos
-    - Tamanho Memória
-    - Tamanho SO
-    ...
+- estratégia: Enum
+- QuantidadeProcessos
+- Tamanho Memória
+- Tamanho SO
+...
 
 Caso tenha interface, deverá criar o Label necessário para adicionar essas opções.
 Algo como foi feito no primeiro trabalho. Caso não, deverá apenas colocar no terminal de forma organizada e
@@ -23,11 +23,13 @@ lembrando que deverão também ser computados os valores aleatórios dentro do l
 Para Processos e Memória, podemos ter:
 
 class ProcessConfiguration:
+
 - memória do processo
 - duração
 - tempo para instanciação (Deverá respeitar: Tci = T + Tc(i-1), onde Tc0 = 0)
 
 class MemoryConfiguration:
+
 - Tamanho Memória
 - Tamanho Ocupado SO
 - Estratégia
@@ -38,6 +40,7 @@ No final deverá ser fácil adiquirir as informações de todos os processos e d
 
 Aqui deveremos ter o processo em si de gerenciamento da memória e execução em Real-Time dos processos.  
 A cada um segundo:
+
 - Atualizar processo por processo.
 - Adicionar um novo processo:
     - Usar o algoritmo de inserção.
@@ -53,11 +56,13 @@ A cada um segundo:
 
 Aqui teremos todos os cálculos adicionais que não pertencem unicamente ao gerenciamewnto de memória.
 Os cálculos seguintes:
+
 - Tempo médio de Espera
 - Tempo de espera
 
 ## Interface Visual
 
-Deveremos mostrar esses dados de alguma forma para o usuário, temos como opções:  
-- GUI, usando JavaFX (X)  
+Deveremos mostrar esses dados de alguma forma para o usuário, temos como opções:
+
+- GUI, usando JavaFX (X)
 - CLI usando o próprio terminal mesmo
