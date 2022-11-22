@@ -1,6 +1,7 @@
 package com.github.beloin.memoryalocationsimulator.utils;
 
 public interface Observable<T> {
-    void addListener(Listener listener);
-    void removeListener(Listener listener);
+    void addListener(Listener<T> listener);
+    void removeListener(Listener<T> listener);
+    T getObject();
 }
