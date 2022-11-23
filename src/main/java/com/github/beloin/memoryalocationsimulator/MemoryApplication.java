@@ -19,7 +19,6 @@ public class MemoryApplication extends Application {
         Scene scene = new Scene(borderPane, 400, 400);
 
         Memory mm = new Memory();
-        ;
         stage.setTitle("Memory Application");
         stage.setScene(scene);
         stage.show();

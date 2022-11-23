@@ -5,6 +5,7 @@
 Criar as configurações de entrada, algo como:
 
 classe EntradaConf:
+
 - estratégia: Enum
 - QuantidadeProcessos
 - Tamanho Memória
