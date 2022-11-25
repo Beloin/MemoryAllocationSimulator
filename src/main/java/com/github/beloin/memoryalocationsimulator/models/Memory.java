@@ -15,9 +15,9 @@ public class Memory implements Observable<Memory> {
     private final int memoryUsedByOS;
     private final Strategy strategy;
 
-    private final List<Process> processes;
+    private final List<AppProcess> processes;
 
-    public Memory(MemoryConfiguration memoryConfiguration, List<Process> processes) {
+    public Memory(MemoryConfiguration memoryConfiguration, List<AppProcess> processes) {
         this.realMemorySize = memoryConfiguration.getRealMemorySize();
         this.memoryUsedByOS = memoryConfiguration.getMemoryUsedByOS();
         this.strategy = memoryConfiguration.getStrategy();
