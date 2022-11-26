@@ -23,6 +23,13 @@ public class Memory implements Observable<Memory> {
         this.strategy = memoryConfiguration.getStrategy();
         this.processQueue = processes;
         this.fullSpaces = new ArrayList<>(100);
+
+
+        // TODO: How to make SOProcess -> Process that cannot be removed
+        // TODO: Duration = MAX_INTEGER?
+        // TODO: tag: canBeRemoved?
+        fullSpaces.add(new MemorySpace(0, memoryUsedByOS));
+        fullSpaces.add(new MemorySpace(0, memoryUsedByOS));
     }
 
     public Memory(MemoryConfiguration memoryConfiguration) {

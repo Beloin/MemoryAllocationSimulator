@@ -8,6 +8,7 @@ public class AppProcess {
     private int duration;
 
     private int id;
+    private String name;
 
     /**
      * Tempo que entrou na fila de espera para ser alocado.
@@ -20,6 +21,13 @@ public class AppProcess {
         appProcess.instantiationTime = pConfiguration.getInstantiationTime();
         appProcess.occupiedMemory = pConfiguration.getOccupiedMemory();
         appProcess.id = id;
+        appProcess.name = String.format("Process {%d}", id);
+        return appProcess;
+    }
+
+    public static AppProcess of(ProcessConfiguration pConfiguration, int id, String name) {
+        AppProcess appProcess = AppProcess.of(pConfiguration, id);
+        appProcess.name = name;
         return appProcess;
     }
 
@@ -66,7 +74,7 @@ public class AppProcess {
     public ProcessStatus getStatus() {
         if (hasStarted && !hasStopped) {
             return ProcessStatus.RUNNING;
-        } else{
+        } else {
             if (hasStopped) {
                 return ProcessStatus.STTOPED;
             }
@@ -85,5 +93,9 @@ public class AppProcess {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

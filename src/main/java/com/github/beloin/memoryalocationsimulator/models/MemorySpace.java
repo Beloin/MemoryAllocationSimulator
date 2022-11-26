@@ -2,11 +2,21 @@ package com.github.beloin.memoryalocationsimulator.models;
 
 // TODO: HOW TO GET SPACES BETWEEN MEMORY? -> Use calculation and return List of spaces
 public class MemorySpace {
-    public MemorySpace(int start, int stop) {
+    public MemorySpace(int start, int stop, boolean hasProcess) {
         this.start = start;
         this.stop = stop;
-        hasProcess = false;
+        this.hasProcess = hasProcess;
     }
+
+    public MemorySpace(int start, int stop) {
+        this(start, stop, false);
+    }
+
+    public MemorySpace(int start, int stop, AppProcess appProcess) {
+        this(start, stop, true);
+        this.appProcess = appProcess;
+    }
+
 
     private final int start;
     private final int stop;
