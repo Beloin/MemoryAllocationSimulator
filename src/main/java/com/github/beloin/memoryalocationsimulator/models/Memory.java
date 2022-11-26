@@ -5,9 +5,7 @@ import com.github.beloin.memoryalocationsimulator.models.configuration.MemoryCon
 import com.github.beloin.memoryalocationsimulator.utils.Listener;
 import com.github.beloin.memoryalocationsimulator.utils.Observable;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Memory implements Observable<Memory> {
 
@@ -15,15 +13,21 @@ public class Memory implements Observable<Memory> {
     private final int memoryUsedByOS;
     private final Strategy strategy;
 
-    private final List<AppProcess> processes;
+    private final List<AppProcess> runningProcesses = new LinkedList<>();
+    private final List<AppProcess> stoppedProcess = new LinkedList<>();
+    private final Queue<AppProcess> processQueue;
 
-    public Memory(MemoryConfiguration memoryConfiguration, List<AppProcess> processes) {
+    public Memory(MemoryConfiguration memoryConfiguration, Queue<AppProcess> processes) {
         this.realMemorySize = memoryConfiguration.getRealMemorySize();
         this.memoryUsedByOS = memoryConfiguration.getMemoryUsedByOS();
         this.strategy = memoryConfiguration.getStrategy();
-        this.processes = processes;
+        this.processQueue = processes;
+        this.fullSpaces = new ArrayList<>(100);
     }
 
+    public Memory(MemoryConfiguration memoryConfiguration) {
+        this(memoryConfiguration, new LinkedList<>());
+    }
 
     private final List<Listener<?>> listeners = new LinkedList<>();
 
@@ -42,22 +46,35 @@ public class Memory implements Observable<Memory> {
         return this;
     }
 
-    // TODO: HOW TO GET SPACES BETWEEN MEMORY? -> Use calculation and return List of spaces
-    static class Space {
-        int start;
-        int stop;
+    public void addAppProcess(AppProcess process) {
+        this.processQueue.add(process);
+    }
 
-        public int getTotal() {
-            return stop - start;
+    void run() {
+        // TODO: Remove process from process list if is already done.
+        for (AppProcess process : runningProcesses) {
+        }
+
+        // TODO: Get process from queue to add to list if has any left space
+        for (AppProcess process : processQueue) {
         }
     }
 
-    /**
-     * Imutable List
-     * @return
-     */
-    public List<Space> getAvalaibleSpaces() {
 
+
+    // TODO: SEE HOW WE WILL SEE THE MEMORY:
+    // TODO: LIST OF SPACES? OR ONLY MEMORY
+
+    private final List<MemorySpace> fullSpaces;
+
+    public List<MemorySpace> getSpaces() {
+        for (AppProcess process : runningProcesses) {
+        }
         return Collections.unmodifiableList(null);
+    }
+
+    public List<MemorySpace> getFreeSpaces() {
+        List<MemorySpace> spaces = getSpaces().stream().filter(sp -> !sp.hasProcess()).toList();
+        return spaces;
     }
 }

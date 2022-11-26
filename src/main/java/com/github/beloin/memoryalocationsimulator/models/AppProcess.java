@@ -7,16 +7,19 @@ public class AppProcess {
 
     private int duration;
 
+    private int id;
+
     /**
      * Tempo que entrou na fila de espera para ser alocado.
      */
     private int instantiationTime;
 
-    public static AppProcess of(ProcessConfiguration pConfiguration) {
+    public static AppProcess of(ProcessConfiguration pConfiguration, int id) {
         AppProcess appProcess = new AppProcess();
         appProcess.duration = pConfiguration.getDuration();
         appProcess.instantiationTime = pConfiguration.getInstantiationTime();
         appProcess.occupiedMemory = pConfiguration.getOccupiedMemory();
+        appProcess.id = id;
         return appProcess;
     }
 
@@ -70,5 +73,17 @@ public class AppProcess {
 
             return ProcessStatus.IDLE;
         }
+    }
+
+    public int getOccupiedMemory() {
+        return occupiedMemory;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public int getId() {
+        return id;
     }
 }
