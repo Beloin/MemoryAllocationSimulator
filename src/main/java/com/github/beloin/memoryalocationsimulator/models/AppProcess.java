@@ -3,6 +3,9 @@ package com.github.beloin.memoryalocationsimulator.models;
 import com.github.beloin.memoryalocationsimulator.models.configuration.ProcessConfiguration;
 
 public class AppProcess {
+    private AppProcess() {
+    }
+
     private int occupiedMemory;
 
     private int duration;

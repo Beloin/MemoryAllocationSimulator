@@ -2,7 +2,7 @@ package com.github.beloin.memoryalocationsimulator.models;
 
 // TODO: HOW TO GET SPACES BETWEEN MEMORY? -> Use calculation and return List of spaces
 public class MemorySpace {
-    public MemorySpace(int start, int stop, boolean hasProcess) {
+    private MemorySpace(int start, int stop, boolean hasProcess) {
         this.start = start;
         this.stop = stop;
         this.hasProcess = hasProcess;
@@ -21,7 +21,6 @@ public class MemorySpace {
     private final int start;
     private final int stop;
 
-
     private boolean hasProcess;
     private AppProcess appProcess;
 
@@ -30,12 +29,18 @@ public class MemorySpace {
         hasProcess = true;
     }
 
+
     public AppProcess getAppProcess() {
         return appProcess;
     }
 
     public boolean hasProcess() {
         return hasProcess;
+    }
+
+    public void removeProceess() {
+        hasProcess = false;
+        appProcess = null;
     }
 
     public int getTotal() {
@@ -48,5 +53,13 @@ public class MemorySpace {
 
     public int getStop() {
         return stop;
+    }
+
+    public void breakIn() {
+        // TODO: Implement here break?
+    }
+
+    public void join(MemorySpace other) {
+
     }
 }
