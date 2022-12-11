@@ -11,15 +11,21 @@ public class EntryConfiguration {
     private int realMemorySize;
     private int memoryUsedByOS;
 
+    // M1
     private int memoryIntervalStart;
+    // M2
     private int memoryIntervalEnd;
 
     // Aways in seconds
+    // TC1
     private int instantiationIntervalStart;
+    // TC2
     private int instantiationIntervalEnd;
 
     // Aways in seconds
+    // TP1
     private int processDurationIntervalStart;
+    // TP2
     private int processDurationIntervalEnd;
 
 
