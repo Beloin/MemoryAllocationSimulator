@@ -80,39 +80,8 @@ public class Memory implements Observable<Memory> {
             }
         }
 
-        // TODO: Update Memory -> This is not working, find another way
-        boolean hasStarted = false;
-        int emptyStart = 0;
-        int emptyEnd = 0;
-        class EmptyThing {
-            int emptyStart;
-            int emptyEnd;
 
-            int size() {
-                return emptyEnd - emptyStart;
-            }
-        }
-        List<EmptyThing> emptyThingList = new LinkedList<>(); // Already ordered
-        for (int i = 0; i < fullSpaces.size(); i++) {
-            MemorySpace memorySpace = fullSpaces.get(i);
-            if (!memorySpace.hasProcess()) {
-                if (!hasStarted) {
-                    emptyStart = i;
-                    emptyEnd = i;
-                    hasStarted = true;
-                } else {
-                    emptyEnd = i;
-                }
-            } else {
-                if (hasStarted) {
-                    EmptyThing n = new EmptyThing();
-                    n.emptyEnd = emptyEnd;
-                    n.emptyStart = emptyStart;
-                    hasStarted = false;
-                    emptyThingList.add(n);
-                }
-            }
-        }
+
 
 
         // TODO: Get process from queue to add to list if has any left space
@@ -123,8 +92,13 @@ public class Memory implements Observable<Memory> {
     }
 
 
+    void run2() {
+        int now = 0;
+    }
+
     // TODO: SEE HOW WE WILL SEE THE MEMORY:
     // TODO: LIST OF SPACES? OR ONLY MEMORY
+    //todo: list of empty only!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     private List<MemorySpace> fullSpaces;
 
     public List<MemorySpace> getSpaces() {
