@@ -29,10 +29,12 @@ public class MemoryView  implements Listener<Memory> {
     }
 
     private final Group parent;
+    private final Memory memory;
 
-    public MemoryView(Group parent, List<MemorySpace> spaces) {
+    public MemoryView(Group parent, Memory memory) {
         this.parent = parent;
-        this.spaces = spaces;
+        this.spaces = memory.getSpaces();
+        this.memory = memory;
         parent.getChildren().add(vBox);
     }
 
@@ -46,6 +48,8 @@ public class MemoryView  implements Listener<Memory> {
 
         double baseX = 150;
         double baseY = 0.2;
+        Label memoryLabel = new Label("Memory -> " + memory.getRealMemorySize());
+        vBox.getChildren().add(memoryLabel);
         for (int i = spaces.size()-1; i >= 0; i--) {
             MemorySpace space = spaces.get(i);
             StackPane st = new StackPane();

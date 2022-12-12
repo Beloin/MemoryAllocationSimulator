@@ -41,6 +41,10 @@ public class Memory extends Thread implements Observable<Memory> {
         lastProcessId = 0;
     }
 
+    public int getRealMemorySize() {
+        return realMemorySize;
+    }
+
     private ProcessConfiguration generateOsProcess() {
         ProcessConfiguration osProcess = new ProcessConfiguration();
         osProcess.setOccupiedMemory(memoryUsedByOS);
@@ -96,22 +100,16 @@ public class Memory extends Thread implements Observable<Memory> {
             }
 
             // Compacting sequential empty spaces.
-            /// TODO: Problem compating
             pseudoCompating();
 
-
-            // TODO: Get process from queue to add to list if has any left space
-            while (!processQueue.isEmpty()) {
-                AppProcess process = processQueue.peek();
+            List<AppProcess> toRemoveList = new ArrayList<>(10);
+            for (AppProcess process: processQueue) {
                 int instantiationTime = process.getInstantiationTime();
-
                 if (now >= instantiationTime) {
-                    process = processQueue.poll();
                     FitStrategy.Return returnSpace;
                     try {
                         returnSpace = strategyImpl.nextEmptySpace(fullSpaces, process);
                     } catch (NoSpaceLeftException e) {
-                        processQueue.add(process);
                         continue;
                     }
 
@@ -124,10 +122,11 @@ public class Memory extends Thread implements Observable<Memory> {
                     }
 
                     process.start(now);
-                    break;
-                } else {
-                    break;
+                    toRemoveList.add(process);
                 }
+            }
+            for (AppProcess toBeRemove : toRemoveList) {
+                processQueue.remove(toBeRemove);
             }
 
             updateListeners();

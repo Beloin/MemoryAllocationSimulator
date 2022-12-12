@@ -47,7 +47,7 @@ public class MemoryApplication extends Application {
 
         Memory mm = new Memory(configuration, appProcesses);
 
-        MemoryView mmView = new MemoryView(initialRoot, mm.getSpaces());
+        MemoryView mmView = new MemoryView(initialRoot, mm);
         mm.addListener(mmView);
         mmView.draw();
 
@@ -67,6 +67,12 @@ public class MemoryApplication extends Application {
         configuration02.setInstantiationTime(8);
         AppProcess app02 = AppProcess.of(configuration02, 2);
 
-        return new LinkedList<>(List.of(app01, app02));
+        ProcessConfiguration configuration03 = new ProcessConfiguration();
+        configuration03.setDuration(40);
+        configuration03.setOccupiedMemory(800);
+        configuration03.setInstantiationTime(3);
+        AppProcess app03 = AppProcess.of(configuration03, 3);
+
+        return new LinkedList<>(List.of(app01, app02, app03));
     }
 }
