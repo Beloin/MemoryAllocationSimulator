@@ -12,7 +12,7 @@ public class FisrtFit implements FitStrategy {
         int index = 0;
         for (MemorySpace space : spaces) {
             if (!space.hasProcess()) {
-                if (space.getSize() <= process.getOccupiedMemory()) return new Return(space, index);
+                if (process.getOccupiedMemory() <= space.getSize()) return new Return(space, index);
             }
             index++;
         }
