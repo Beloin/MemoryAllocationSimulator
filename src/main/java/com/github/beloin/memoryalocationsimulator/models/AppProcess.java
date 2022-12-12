@@ -1,6 +1,7 @@
 package com.github.beloin.memoryalocationsimulator.models;
 
 import com.github.beloin.memoryalocationsimulator.models.configuration.ProcessConfiguration;
+import com.github.beloin.memoryalocationsimulator.utils.exceptions.NotStartedException;
 
 public class AppProcess {
     private AppProcess() {
@@ -24,7 +25,7 @@ public class AppProcess {
         appProcess.instantiationTime = pConfiguration.getInstantiationTime();
         appProcess.occupiedMemory = pConfiguration.getOccupiedMemory();
         appProcess.id = id;
-        appProcess.name = String.format("Process {%d}", id);
+        appProcess.name = String.format("Process %d", id);
         return appProcess;
     }
 
@@ -53,14 +54,18 @@ public class AppProcess {
         hasStopped = true;
     }
 
-    public int getTimeLeft(int currentTime) throws Exception {
-        if (!hasStarted) throw new Exception("Not started");
+    public int getTimeLeft(int currentTime) throws NotStartedException {
+        if (!hasStarted) throw new NotStartedException();
         int timePassed = currentTime - startTime;
         return duration - timePassed;
     }
 
-    public boolean hasFinished(int currentTime) throws Exception {
+    public boolean hasFinished(int currentTime) throws NotStartedException {
         return getTimeLeft(currentTime) == 0;
+    }
+
+    public boolean hasStarted() {
+        return hasStarted;
     }
 
     public int getWaitTime() throws Exception {
@@ -86,6 +91,10 @@ public class AppProcess {
         }
     }
 
+    public int getInstantiationTime() {
+        return instantiationTime;
+    }
+
     public int getOccupiedMemory() {
         return occupiedMemory;
     }
@@ -100,5 +109,12 @@ public class AppProcess {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "AppProcess{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
