@@ -39,7 +39,8 @@ public class MemoryView  implements Listener<Memory> {
     VBox vBox = new VBox();
 
     public void draw() {
-        for (int i = 0; i < vBox.getChildren().size(); i++) {
+        int fixedSize = vBox.getChildren().size();
+        for (int i = 0; i < fixedSize; i++) {
             vBox.getChildren().remove(0);
         }
 

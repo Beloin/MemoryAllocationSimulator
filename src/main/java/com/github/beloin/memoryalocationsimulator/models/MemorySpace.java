@@ -81,7 +81,7 @@ public class MemorySpace {
         int newStop;
 
         int compareInt = this.start - other.start;
-        if (compareInt > 0) {
+        if (compareInt < 0) {
             newStart = this.start;
             newStop = other.stop;
         } else {
