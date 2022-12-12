@@ -91,8 +91,8 @@ public class MemoryApplication extends Application {
 
 
         ProcessConfiguration configuration03 = new ProcessConfiguration();
-        configuration03.setDuration(10);
-        configuration03.setOccupiedMemory(700);
+        configuration03.setDuration(11);
+        configuration03.setOccupiedMemory(350);
         configuration03.setInstantiationTime(3);
         AppProcess app03 = AppProcess.of(configuration03, 3);
 
@@ -106,7 +106,7 @@ public class MemoryApplication extends Application {
         ProcessConfiguration configuration04 = new ProcessConfiguration();
         configuration04.setDuration(10);
         configuration04.setOccupiedMemory(50);
-        configuration04.setInstantiationTime(6);
+        configuration04.setInstantiationTime(13);
         AppProcess app04 = AppProcess.of(configuration04, 4);
 
         return new LinkedList<>(List.of(app01, app02, app03, app04));
