@@ -2,6 +2,7 @@ package com.github.beloin.memoryalocationsimulator.models;
 
 import com.github.beloin.memoryalocationsimulator.models.configuration.ProcessConfiguration;
 import com.github.beloin.memoryalocationsimulator.utils.exceptions.NotStartedException;
+import com.github.beloin.memoryalocationsimulator.utils.exceptions.YetRunnningException;
 
 public class AppProcess {
     private AppProcess() {
@@ -68,8 +69,8 @@ public class AppProcess {
         return hasStarted;
     }
 
-    public int getWaitTime() throws Exception {
-        if (!hasStopped) throw new Exception("Yet Running");
+    public int getWaitTime() throws YetRunnningException {
+        if (!hasStopped) throw new YetRunnningException();
         return endTime - instantiationTime;
     }
 
@@ -107,6 +108,14 @@ public class AppProcess {
         return id;
     }
 
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public int getEndTime() {
+        return endTime;
+    }
+
     public String getName() {
         return name;
     }
@@ -116,5 +125,13 @@ public class AppProcess {
         return "AppProcess{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    protected void resetDuration(int now) {
+        this.startTime = now;
+    }
+
+    public int getTimeToStart(int now) {
+        return instantiationTime - now;
     }
 }

@@ -20,10 +20,12 @@ public class Memory extends Thread implements Observable<Memory> {
     private final FitStrategy strategyImpl;
 
     private final List<AppProcess> stoppedProcess = new LinkedList<>();
-    private final Queue<AppProcess> processQueue;
+    private final List<AppProcess> processQueue;
     private int lastProcessId;
 
-    public Memory(MemoryConfiguration memoryConfiguration, Queue<AppProcess> processes) {
+    private final AppProcess osProcess;
+
+    public Memory(MemoryConfiguration memoryConfiguration, List<AppProcess> processes) {
         this.realMemorySize = memoryConfiguration.getRealMemorySize();
         this.memoryUsedByOS = memoryConfiguration.getMemoryUsedByOS();
         this.strategy = memoryConfiguration.getStrategy();
@@ -33,7 +35,7 @@ public class Memory extends Thread implements Observable<Memory> {
 
         // Adding default SO process and free space
         ProcessConfiguration osProcessConfiguration = generateOsProcess();
-        AppProcess osProcess = AppProcess.of(osProcessConfiguration, 0, "OS");
+        osProcess = AppProcess.of(osProcessConfiguration, 0, "OS");
         osProcess.start(0);
 
         fullSpaces.add(new MemorySpace(0, memoryUsedByOS, osProcess));
@@ -78,9 +80,10 @@ public class Memory extends Thread implements Observable<Memory> {
         this.processQueue.add(process);
     }
 
+    private int now = 0;
     @Override
     public void run() {
-        int now = 0; // TODO: Update each second
+        now = 0; // TODO: Update each second
         while (true) {
             // TODO: Remove process from process list if is already done.
             for (MemorySpace mm : fullSpaces) {
@@ -131,6 +134,7 @@ public class Memory extends Thread implements Observable<Memory> {
 
             updateListeners();
 
+            osProcess.resetDuration(now);
             printMemory();
             sleepOrNot();
             now++;
@@ -194,5 +198,17 @@ public class Memory extends Thread implements Observable<Memory> {
         for (Listener<Memory> listener : listeners) {
             listener.update(this);
         }
+    }
+
+    public int getNow() {
+        return now;
+    }
+
+    public List<AppProcess> getStoppedProcess() {
+        return stoppedProcess;
+    }
+
+    public List<AppProcess> getProcessQueue() {
+        return processQueue;
     }
 }
