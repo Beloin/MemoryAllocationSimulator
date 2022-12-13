@@ -45,8 +45,10 @@ public class MemoryView implements Listener<Memory> {
         // View config
         HBox hBox = new HBox();
 
+        // TODO: ADD BLANK BOX TO PREVENT MINIMIZING WINDOW
         hBox.getChildren().add(moreInfoVbox);
-        hBox.getChildren().add(vBox);
+        hBox.getChildren().add(memoryVBox);
+        // TODO: ADD BLANK BOX TO PREVENT MINIMIZING WINDOW
         hBox.getChildren().add(queueVbox);
         hBox.setSpacing(10);
 
@@ -55,19 +57,19 @@ public class MemoryView implements Listener<Memory> {
     }
 
 
-    private final VBox vBox = new VBox();
+    private final VBox memoryVBox = new VBox();
     VBox queueVbox = new VBox();
     VBox moreInfoVbox = new VBox();
 
     public void drawMemory() {
-        vBox.getChildren().clear();
+        memoryVBox.getChildren().clear();
 
         double baseX = 180;
         double baseY = 0.5;
         Label memoryLabel = new Label("Memory -> " + memory.getRealMemorySize() + "mb");
-        vBox.getChildren().add(memoryLabel);
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(0);
+        memoryVBox.getChildren().add(memoryLabel);
+        memoryVBox.setAlignment(Pos.CENTER);
+        memoryVBox.setSpacing(0);
         for (int i = spaces.size() - 1; i >= 0; i--) {
             MemorySpace space = spaces.get(i);
             StackPane st = new StackPane();
@@ -99,7 +101,7 @@ public class MemoryView implements Listener<Memory> {
 
             st.getChildren().add(rect);
             st.getChildren().add(labelVbox);
-            vBox.getChildren().add(st);
+            memoryVBox.getChildren().add(st);
         }
 
         drawQueue();
