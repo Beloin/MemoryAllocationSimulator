@@ -2,6 +2,7 @@ package com.github.beloin.memoryalocationsimulator;
 
 import com.github.beloin.memoryalocationsimulator.models.AppProcess;
 import com.github.beloin.memoryalocationsimulator.models.Memory;
+import com.github.beloin.memoryalocationsimulator.models.MemorySpace;
 import com.github.beloin.memoryalocationsimulator.models.Strategy;
 import com.github.beloin.memoryalocationsimulator.models.configuration.EntryConfiguration;
 import com.github.beloin.memoryalocationsimulator.models.configuration.MemoryConfiguration;
@@ -13,6 +14,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,11 +36,27 @@ public class MemoryApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
+        VBox vbox = new VBox();
         ConfigurationView confView = new ConfigurationView(initialRoot);
         confView.buildMenu((entryConfiguration) -> {
-            draw(initialRoot, setup(entryConfiguration));
+            Memory memory = setup(entryConfiguration);
+            draw(initialRoot, memory);
+
+            initialRoot.getChildren().add(vbox);
+            drawPauseButton(vbox, memory);
+            drawAddButtonn(vbox, memory, entryConfiguration);
         });
     }
+
+    private void drawPauseButton(VBox parent, Memory memory) {
+        Button btn = new Button("Pause/Play");
+        parent.getChildren().add(btn);
+        btn.setOnAction((e) -> {
+            memory.playOrPause();
+        });
+    }
+
+    private int lastId = 1;
 
     private Memory setup(EntryConfiguration entryConfiguration) {
         ConfigurationParser configurationParser = new ConfigurationParser();
@@ -61,13 +79,11 @@ public class MemoryApplication extends Application {
         }
 
         List<AppProcess> appProcessList = new LinkedList<>();
-        int id = 1;
         for (ProcessConfiguration pp : processConfigurationList) {
-            AppProcess appProcess = AppProcess.of(pp, id);
+            AppProcess appProcess = AppProcess.of(pp, lastId);
             appProcessList.add(appProcess);
-            id++;
+            lastId++;
         }
-
 
         return new Memory(memoryConfiguration, appProcessList);
     }
@@ -78,8 +94,16 @@ public class MemoryApplication extends Application {
         memory.start();
     }
 
-    public void drawAddButtonn() {
-        Button btn = new Button();
+    public void drawAddButtonn(VBox initialRoot, Memory memory, EntryConfiguration entryConfiguration) {
+        Button btn = new Button("Adicionar Processo");
+        btn.setOnAction((e) -> {
+            ConfigurationParser configurationParser = new ConfigurationParser();
+            ProcessConfiguration pConf = configurationParser.nextProcess(entryConfiguration, memory.getNow());
+            AppProcess appProcess = AppProcess.of(pConf, lastId++);
+            memory.addAppProcess(appProcess);
+        });
+
+        initialRoot.getChildren().add(btn);
     }
 
 

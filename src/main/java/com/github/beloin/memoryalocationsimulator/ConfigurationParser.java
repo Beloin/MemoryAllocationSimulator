@@ -29,22 +29,32 @@ public class ConfigurationParser {
         int proccessCount = entryConfiguration.getProccessCount();
 
         for (int i = 0; i < proccessCount; i++) {
-            ProcessConfiguration process = new ProcessConfiguration();
-
-            int instantiationTime = getRandomNumber(instantiationIntervalStart, instantiationIntervalEnd);
-            int occupiedMemory = getRandomNumber(memoryIntervalStart, memoryIntervalEnd);
-            int processDuration = getRandomNumber(processDurationIntervalStart, processDurationIntervalEnd);
-
-            if (i > 0) {
-                instantiationTime = processConfigurations.get(i - 1).getInstantiationTime() + instantiationTime;
-            }
-
-            process.setOccupiedMemory(occupiedMemory);
-            process.setDuration(processDuration);
-            process.setInstantiationTime(instantiationTime);
-
+            ProcessConfiguration process = createProcessConfiguration(instantiationIntervalStart, instantiationIntervalEnd, memoryIntervalStart, memoryIntervalEnd, processDurationIntervalStart, processDurationIntervalEnd, i);
             processConfigurations.add(process);
         }
+    }
+
+    private ProcessConfiguration createProcessConfiguration(
+            int instantiationIntervalStart, int instantiationIntervalEnd,
+            int memoryIntervalStart, int memoryIntervalEnd,
+            int processDurationIntervalStart,
+            int processDurationIntervalEnd,
+            int i
+    ) {
+        ProcessConfiguration process = new ProcessConfiguration();
+
+        int instantiationTime = getRandomNumber(instantiationIntervalStart, instantiationIntervalEnd);
+        int occupiedMemory = getRandomNumber(memoryIntervalStart, memoryIntervalEnd);
+        int processDuration = getRandomNumber(processDurationIntervalStart, processDurationIntervalEnd);
+
+        if (i > 0) {
+            instantiationTime = processConfigurations.get(i - 1).getInstantiationTime() + instantiationTime;
+        }
+
+        process.setOccupiedMemory(occupiedMemory);
+        process.setDuration(processDuration);
+        process.setInstantiationTime(instantiationTime);
+        return process;
     }
 
     public List<ProcessConfiguration> getProcessConfigurationsList() {
@@ -60,5 +70,18 @@ public class ConfigurationParser {
         return random.ints(min, max + 1)
                 .findFirst()
                 .getAsInt();
+    }
+
+    public ProcessConfiguration nextProcess(EntryConfiguration entryConfiguration, int now) {
+        ProcessConfiguration pconf = createProcessConfiguration(
+                entryConfiguration.getInstantiationIntervalStart(), entryConfiguration.getInstantiationIntervalEnd(),
+                entryConfiguration.getMemoryIntervalStart(), entryConfiguration.getMemoryIntervalEnd(),
+                entryConfiguration.getProcessDurationIntervalStart(), entryConfiguration.getProcessDurationIntervalEnd(),
+                0
+        );
+
+        pconf.setInstantiationTime(pconf.getInstantiationTime() + now);
+
+        return pconf;
     }
 }

@@ -11,6 +11,7 @@ import com.github.beloin.memoryalocationsimulator.utils.exceptions.NoSpaceLeftEx
 import com.github.beloin.memoryalocationsimulator.utils.exceptions.NotStartedException;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 public class Memory extends Thread implements Observable<Memory> {
 
@@ -85,59 +86,63 @@ public class Memory extends Thread implements Observable<Memory> {
     public void run() {
         now = 0; // TODO: Update each second
         while (true) {
-            // TODO: Remove process from process list if is already done.
-            for (MemorySpace mm : fullSpaces) {
-                if (mm.hasProcess()) {
-                    try {
-                        AppProcess process = mm.getAppProcess();
-                        boolean hasFinished = process.hasFinished(now);
-                        if (hasFinished) {
-                            process.stop(now);
-                            mm.removeProceess();
-                            stoppedProcess.add(process);
+            if (getIsPaused()) {
+                sleepOrNot();
+            } else {
+                // TODO: Remove process from process list if is already done.
+                for (MemorySpace mm : fullSpaces) {
+                    if (mm.hasProcess()) {
+                        try {
+                            AppProcess process = mm.getAppProcess();
+                            boolean hasFinished = process.hasFinished(now);
+                            if (hasFinished) {
+                                process.stop(now);
+                                mm.removeProceess();
+                                stoppedProcess.add(process);
+                            }
+                        } catch (NotStartedException e) {
+                            e.printStackTrace();
                         }
-                    } catch (NotStartedException e) {
-                        e.printStackTrace();
                     }
                 }
-            }
 
-            // Compacting sequential empty spaces.
-            pseudoCompating();
+                // Compacting sequential empty spaces.
+                pseudoCompating();
 
-            List<AppProcess> toRemoveList = new ArrayList<>(10);
-            for (AppProcess process: processQueue) {
-                int instantiationTime = process.getInstantiationTime();
-                if (now >= instantiationTime) {
-                    FitStrategy.Return returnSpace;
-                    try {
-                        returnSpace = strategyImpl.nextEmptySpace(fullSpaces, process);
-                    } catch (NoSpaceLeftException e) {
-                        continue;
+                List<AppProcess> toRemoveList = new ArrayList<>(10);
+                for (AppProcess process: processQueue) {
+                    int instantiationTime = process.getInstantiationTime();
+                    if (now >= instantiationTime) {
+                        FitStrategy.Return returnSpace;
+                        try {
+                            returnSpace = strategyImpl.nextEmptySpace(fullSpaces, process);
+                        } catch (NoSpaceLeftException e) {
+                            continue;
+                        }
+
+                        MemorySpace spaceToBeAllocated = returnSpace.memorySpace;
+                        MemorySpace newMemorySpace = spaceToBeAllocated.breakIn(process);
+                        spaceToBeAllocated.setProcess(process);
+
+                        if (newMemorySpace != null) {
+                            fullSpaces.add(returnSpace.index + 1, newMemorySpace);
+                        }
+
+                        process.start(now);
+                        toRemoveList.add(process);
                     }
-
-                    MemorySpace spaceToBeAllocated = returnSpace.memorySpace;
-                    MemorySpace newMemorySpace = spaceToBeAllocated.breakIn(process);
-                    spaceToBeAllocated.setProcess(process);
-
-                    if (newMemorySpace != null) {
-                        fullSpaces.add(returnSpace.index + 1, newMemorySpace);
-                    }
-
-                    process.start(now);
-                    toRemoveList.add(process);
                 }
-            }
-            for (AppProcess toBeRemove : toRemoveList) {
-                processQueue.remove(toBeRemove);
-            }
+                for (AppProcess toBeRemove : toRemoveList) {
+                    processQueue.remove(toBeRemove);
+                }
 
-            updateListeners();
+                updateListeners();
 
-            osProcess.resetDuration(now);
-            printMemory();
-            sleepOrNot();
-            now++;
+                osProcess.resetDuration(now);
+                printMemory();
+                sleepOrNot();
+                now++;
+            }
         }
     }
 
@@ -210,5 +215,21 @@ public class Memory extends Thread implements Observable<Memory> {
 
     public List<AppProcess> getProcessQueue() {
         return processQueue;
+    }
+
+    private final Semaphore isPausedSemaphore = new Semaphore(1);
+    private boolean isPaused = false;
+    public void playOrPause() {
+        isPausedSemaphore.acquireUninterruptibly();
+        isPaused = !isPaused;
+        isPausedSemaphore.release();
+    }
+
+    private boolean getIsPaused() {
+        boolean currentIsPaused;
+        isPausedSemaphore.acquireUninterruptibly();
+        currentIsPaused = isPaused;
+        isPausedSemaphore.release();
+        return currentIsPaused;
     }
 }
