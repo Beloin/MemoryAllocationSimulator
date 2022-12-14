@@ -61,42 +61,4 @@ public class ConfigurationParser {
                 .findFirst()
                 .getAsInt();
     }
-
-    public static void main(String[] args) {
-        EntryConfiguration entry = new EntryConfiguration();
-
-        entry.setMemoryUsedByOS(5);
-        entry.setRealMemorySize(1000);
-        entry.setStrategy(Strategy.BEST_FIT);
-
-        entry.setMemoryIntervalStart(10);
-        entry.setMemoryIntervalEnd(350);
-        entry.setInstantiationIntervalStart(1);
-        entry.setInstantiationIntervalEnd(10);
-        entry.setProcessDurationIntervalStart(15);
-        entry.setProcessDurationIntervalEnd(30);
-        entry.setProccessCount(5);
-
-        ConfigurationParser configurationParser = new ConfigurationParser();
-        configurationParser.parse(entry);
-
-        List<ProcessConfiguration> myProcessList = configurationParser.getProcessConfigurationsList();
-
-        MemoryConfiguration memConfig = configurationParser.getMemoryConfiguration();
-
-        System.out.println("Memory Configuration: " + memConfig.getMemoryUsedByOS());
-        System.out.println("Memory Configuration: " + memConfig.getRealMemorySize());
-        System.out.println("Memory Configuration: " + memConfig.getStrategy());
-        System.out.println("\n");
-
-        for (int i = 0; i < entry.getProccessCount(); i++) {
-            System.out.println("Process " + i);
-            System.out.println("Duration = " + myProcessList.get(i).getDuration());
-            System.out.println("OccupiedMemory = " + myProcessList.get(i).getOccupiedMemory());
-            System.out.println("InstantiationTime = " + myProcessList.get(i).getInstantiationTime());
-            System.out.println("\n");
-        }
-    }
-
-
 }

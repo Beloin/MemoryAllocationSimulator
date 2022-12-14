@@ -113,12 +113,23 @@ public class MemoryView implements Listener<Memory> {
         List<AppProcess> queue = memory.getProcessQueue();
         for (int i = queue.size() - 1; i >= 0; i--) {
             AppProcess appProcess = queue.get(i);
-            Label txt = new Label(String.format(
-                    "%s -> %dmb em %ds durante %ds",
-                    appProcess.getName(), appProcess.getOccupiedMemory(),
-                    appProcess.getTimeToStart(memory.getNow()),
-                    appProcess.getDuration()
-            ));
+
+            Label txt;
+            if (appProcess.getTimeToStart(memory.getNow()) < 0) {
+                txt = new Label(String.format(
+                        "%s -> %dmb durante %ds",
+                        appProcess.getName(), appProcess.getOccupiedMemory(),
+                        appProcess.getDuration()
+                ));
+            } else {
+                txt = new Label(String.format(
+                        "%s -> %dmb em %ds durante %ds",
+                        appProcess.getName(), appProcess.getOccupiedMemory(),
+                        appProcess.getTimeToStart(memory.getNow()),
+                        appProcess.getDuration()
+                ));
+            }
+
             queueVbox.getChildren().add(txt);
         }
 
@@ -134,9 +145,11 @@ public class MemoryView implements Listener<Memory> {
             AppProcess appProcess = doneProcesses.get(i);
             try {
                 Label processInfo = new Label(String.format(
-                        "%s -> Start: %d, Stop: %d | Espera = %d",
+                        "%s -> Intance: %d, Start: %d, Stop: %d Espera = %d",
                         appProcess.getName(),
-                        appProcess.getStartTime(), appProcess.getEndTime(),
+                        appProcess.getInstantiationTime(),
+                        appProcess.getStartTime(),
+                        appProcess.getEndTime(),
                         appProcess.getWaitTime()
                 ));
                 moreInfoVbox.getChildren().add(processInfo);

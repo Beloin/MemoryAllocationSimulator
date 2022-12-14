@@ -26,7 +26,7 @@ public class ConfigurationView {
 
     private boolean hasBeenBuild = false;
     Label label, strategyLabel, label3, label4, label5, label6, label7;
-    TextField textField, textField2, totalMTextField, tamSOMTextField, textField5, textField6, textField7, textField9, textField10;
+    TextField processCountTextField, totalMTextField, tamSOMTextField;
 
     VBox vBox;
     HBox hBox;
@@ -42,8 +42,8 @@ public class ConfigurationView {
 
     public void buildMenu(ConfigurationFunction returnFunction) {
         label = new Label("Quantidade de processos:");
-        textField = new TextField();
-        textField.setText("10");
+        processCountTextField = new TextField();
+        processCountTextField.setText("10");
 
 
         strategyLabel = new Label("Estratégia utilizada:");
@@ -61,8 +61,6 @@ public class ConfigurationView {
         tamSOMTextField.setText("200");
 
         label5 = new Label("Intervalo para gerar a memória de cada processo:");
-//        textField5 = new TextField();
-//        textField5.setText("0");
         startM = new TextField("100");
         endM = new TextField("300");
         HBox MintervalBox = new HBox(startM, endM);
@@ -71,15 +69,11 @@ public class ConfigurationView {
 
 
         label6 = new Label(" Intervalo para geração do Tempo de instanciação:");
-//        textField6 = new TextField();
-//        textField6.setText("0");
         startTi = new TextField("1");
         endTi = new TextField("10");
         HBox TIintervalBox = new HBox(startTi, endTi);
 
         label7 = new Label("Intervalo para gerar a duração de cada processo:");
-//        textField7 = new TextField();
-//        textField7.setText("0");
         startTp = new TextField("1");
         endTp = new TextField("30");
         HBox TpintervalBox = new HBox(startTp, endTp);
@@ -99,7 +93,7 @@ public class ConfigurationView {
         vBox.getChildren().add(radioButtons);
 
         vBox.getChildren().add(label);
-        vBox.getChildren().add(textField);
+        vBox.getChildren().add(processCountTextField);
         vBox.getChildren().add(label3);
         vBox.getChildren().add(totalMTextField);
         vBox.getChildren().add(label4);
@@ -169,7 +163,7 @@ public class ConfigurationView {
                 Strategy strategy = getStrategy();
                 config.setStrategy(strategy);
 
-                int pCount = parseInt(textField.getText());
+                int pCount = parseInt(processCountTextField.getText());
                 config.setProccessCount(pCount);
 
                 int tamMemoria = Integer.parseInt(totalMTextField.getText());
