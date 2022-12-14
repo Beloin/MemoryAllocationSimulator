@@ -108,4 +108,20 @@ public class EntryConfiguration {
     public void setProcessDurationIntervalEnd(int processDurationIntervalEnd) {
         this.processDurationIntervalEnd = processDurationIntervalEnd;
     }
+
+    @Override
+    public String toString() {
+        return "EntryConfiguration{" +
+                "strategy=" + strategy +
+                ", proccessCount=" + proccessCount +
+                ", realMemorySize=" + realMemorySize +
+                ", memoryUsedByOS=" + memoryUsedByOS +
+                ", memoryIntervalStart=" + memoryIntervalStart +
+                ", memoryIntervalEnd=" + memoryIntervalEnd +
+                ", instantiationIntervalStart=" + instantiationIntervalStart +
+                ", instantiationIntervalEnd=" + instantiationIntervalEnd +
+                ", processDurationIntervalStart=" + processDurationIntervalStart +
+                ", processDurationIntervalEnd=" + processDurationIntervalEnd +
+                '}';
+    }
 }

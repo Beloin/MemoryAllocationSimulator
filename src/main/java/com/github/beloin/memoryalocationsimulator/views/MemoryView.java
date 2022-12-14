@@ -65,7 +65,7 @@ public class MemoryView implements Listener<Memory> {
         memoryVBox.getChildren().clear();
 
         double baseX = 180;
-        double baseY = 0.5;
+        double baseY = 0.3;
         Label memoryLabel = new Label("Memory -> " + memory.getRealMemorySize() + "mb");
         memoryVBox.getChildren().add(memoryLabel);
         memoryVBox.setAlignment(Pos.CENTER);
@@ -75,7 +75,7 @@ public class MemoryView implements Listener<Memory> {
             StackPane st = new StackPane();
 
             VBox labelVbox = new VBox();
-            labelVbox.setSpacing(5);
+            labelVbox.setSpacing(0.1);
             labelVbox.setAlignment(Pos.CENTER);
 
 

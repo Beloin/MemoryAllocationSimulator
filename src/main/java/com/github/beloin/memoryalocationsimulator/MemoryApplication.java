@@ -6,10 +6,12 @@ import com.github.beloin.memoryalocationsimulator.models.Strategy;
 import com.github.beloin.memoryalocationsimulator.models.configuration.EntryConfiguration;
 import com.github.beloin.memoryalocationsimulator.models.configuration.MemoryConfiguration;
 import com.github.beloin.memoryalocationsimulator.models.configuration.ProcessConfiguration;
+import com.github.beloin.memoryalocationsimulator.views.ConfigurationView;
 import com.github.beloin.memoryalocationsimulator.views.MemoryView;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -32,13 +34,15 @@ public class MemoryApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        draw(initialRoot, setup());
+        ConfigurationView confView = new ConfigurationView(initialRoot);
+        confView.buildMenu((entryConfiguration) -> {
+            draw(initialRoot, setup(entryConfiguration));
+        });
     }
 
-    private Memory setup() {
-        EntryConfiguration configuration = getEntryConfiguration();
+    private Memory setup(EntryConfiguration entryConfiguration) {
         ConfigurationParser configurationParser = new ConfigurationParser();
-        configurationParser.parse(configuration);
+        configurationParser.parse(entryConfiguration);
 
         MemoryConfiguration memoryConfiguration = configurationParser.getMemoryConfiguration();
         List<ProcessConfiguration> processConfigurationList = configurationParser.getProcessConfigurationsList();
@@ -65,7 +69,6 @@ public class MemoryApplication extends Application {
         }
 
 
-
         return new Memory(memoryConfiguration, appProcessList);
     }
 
@@ -74,6 +77,11 @@ public class MemoryApplication extends Application {
         mmView.drawMemory();
         memory.start();
     }
+
+    public void drawAddButtonn() {
+        Button btn = new Button();
+    }
+
 
     public EntryConfiguration getEntryConfiguration() {
         EntryConfiguration entry = new EntryConfiguration();
